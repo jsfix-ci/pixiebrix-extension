@@ -39,6 +39,7 @@ import { ParseDataUrl } from "./parseDataUrl";
 import { ParseDate } from "@/blocks/transformers/parseDate";
 import { ScreenshotTab } from "@/blocks/transformers/screenshotTab";
 import { TableReader, TablesReader } from "./component/TableReader";
+import { ApplicationStateReader } from "@/blocks/transformers/component/ApplicateStateReader";
 
 function registerTransformers() {
   registerBlock(new JQTransformer());
@@ -65,6 +66,7 @@ function registerTransformers() {
   registerBlock(new ParseDataUrl());
   registerBlock(new ParseDate());
   registerBlock(new ScreenshotTab());
+  registerBlock(new ApplicationStateReader());
 }
 
 export default registerTransformers;

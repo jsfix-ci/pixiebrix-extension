@@ -47,6 +47,7 @@ import {
   CONNECT_EXTENSION,
   DETECT_FRAMEWORK_VERSIONS,
   Framework,
+  GET_APPLICATION_STATE,
   GET_COMPONENT_DATA,
   GET_COMPONENT_INFO,
   READ_WINDOW,
@@ -74,6 +75,8 @@ import { elementInfo } from "@/contentScript/nativeEditor/frameworks";
 import { requireSingleElement } from "@/utils/requireSingleElement";
 import { getPropByPath, noopProxy, ReadProxy } from "@/runtime/pathHelpers";
 import { UnknownObject } from "@/types";
+import { ReactContextVisitor } from "@/frameworks/contrib/react";
+import { walk } from "@/frameworks/scanner";
 
 const MAX_READ_DEPTH = 5;
 
@@ -249,6 +252,22 @@ attachListener(
     adapter.setData(component, valueMap);
   }
 );
+
+attachListener(GET_APPLICATION_STATE, () => {
+  const visitor = new ReactContextVisitor();
+  walk(document, visitor);
+
+  return {
+    react: {
+      hasFiber: visitor.hasFiber,
+      data: {
+        store: visitor.collector.storeData ?? {},
+        stores: visitor.collector.stores,
+        contexts: visitor.collector.data,
+      },
+    },
+  };
+});
 
 attachListener(
   GET_COMPONENT_INFO,

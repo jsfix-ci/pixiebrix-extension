@@ -22,6 +22,8 @@ export const CONNECT_EXTENSION = "@@pixiebrix/script/CONNECT_EXTENSION";
 export const DETECT_FRAMEWORK_VERSIONS =
   "@@pixiebrix/script/DETECT_FRAMEWORK_VERSIONS";
 
+export const GET_APPLICATION_STATE = "@@pixiebrix/script/GET_APPLICATION_STATE";
+
 export const GET_COMPONENT_DATA = "@@pixiebrix/script/GET_COMPONENT_DATA";
 export const SET_COMPONENT_DATA = "@@pixiebrix/script/SET_COMPONENT_DATA";
 export const GET_COMPONENT_INFO = "@@pixiebrix/script/GET_COMPONENT_INFO";

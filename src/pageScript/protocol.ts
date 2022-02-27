@@ -18,6 +18,7 @@
 import { createSendScriptMessage } from "@/messaging/chrome";
 import {
   Framework,
+  GET_APPLICATION_STATE,
   GET_COMPONENT_DATA,
   GET_COMPONENT_INFO,
   SET_COMPONENT_DATA,
@@ -25,6 +26,7 @@ import {
 import { ReaderOutput } from "@/core";
 import { cleanValue } from "@/utils";
 import { ElementInfo } from "@/contentScript/nativeEditor/types";
+import { UnknownObject } from "@/types";
 
 export type PathSpec =
   | string
@@ -64,6 +66,18 @@ export const getElementInfo = createSendScriptMessage<
   ElementInfo,
   { selector: string; framework?: Framework; traverseUp?: number }
 >(GET_COMPONENT_INFO);
+
+type ApplicationState = {
+  react: {
+    hasFiber: boolean;
+    data: UnknownObject;
+  };
+};
+
+export const getApplicationState = createSendScriptMessage<
+  ApplicationState,
+  void
+>(GET_APPLICATION_STATE);
 
 type Handler = (payload: unknown) => unknown | Promise<unknown>;
 type AttachHandler = (type: string, handler: Handler) => void;

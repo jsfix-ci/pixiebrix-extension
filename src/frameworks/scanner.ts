@@ -15,10 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A DOM node/element visitor
+ * @see walk
+ */
 export interface Visitor {
   visit: (node: Node | Element) => boolean;
 }
 
+/**
+ * Interface for a Visitor that collects root instances of a framework
+ */
 export interface RootInstanceVisitor<T> extends Visitor {
   readonly rootInstances: T[];
 }
