@@ -17,8 +17,54 @@
 
 import { formatDistanceToNowStrict } from "date-fns";
 
-export function timeSince(dateIso: string): string {
-  return formatDistanceToNowStrict(new Date(dateIso), {
+// Docs on https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
+// Try to avoid adding (many) more date formats to ensure consistency
+
+/** @returns Mar 5, 2029 */
+const shortDateFormat = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "medium",
+});
+
+/** @returns Mar 5, 2029, 1:05:40 PM   */
+const shortDateTimeFormat = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "medium",
+  timeStyle: "medium",
+});
+
+/**
+ * @param date Date object, ISO string, or unix timestamp in milliseconds
+ * @returns "Sep 4, 1986"
+ */
+export function formatDate(date: Date | string | number): string {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+
+  return shortDateFormat.format(date);
+}
+
+/**
+ * @param date Date object, ISO string, or unix timestamp in milliseconds
+ * @returns "Sep 4, 1986, 1:00:00 PM"
+ */
+export function formatDateTime(date: Date | string | number): string {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+
+  return shortDateTimeFormat.format(date);
+}
+
+/**
+ * @param date Date object, ISO string, or unix timestamp in milliseconds
+ * @returns "3 days ago"
+ */
+export function timeSince(date: Date | string | number): string {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+
+  return formatDistanceToNowStrict(date, {
     addSuffix: true /* "ago" */,
   });
 }
