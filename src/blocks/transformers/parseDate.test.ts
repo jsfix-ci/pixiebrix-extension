@@ -15,38 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { getLocalISOString, ParseDate } from "@/blocks/transformers/parseDate";
-import { register, TimeZone, unregister } from "timezone-mock";
+import { ParseDate } from "@/blocks/transformers/parseDate";
+import { register, unregister } from "timezone-mock";
 import { BusinessError } from "@/errors";
 import { unsafeAssumeValidArg } from "@/runtime/runtimeTypes";
 import { validateOutput } from "@/validators/generic";
-
-const refDate = "2021-12-07T06:17:09.258Z";
-
-const cases = [
-  ["US/Pacific", "2021-12-06T22:17:09.258-08:00"],
-  ["US/Eastern", "2021-12-07T01:17:09.258-05:00"],
-  ["Brazil/East", "2021-12-07T04:17:09.258-02:00"],
-  ["UTC", "2021-12-07T06:17:09.258Z"],
-  ["Europe/London", "2021-12-07T06:17:09.258Z"],
-  ["Australia/Adelaide", "2021-12-07T16:47:09.258+10:30"],
-];
 
 describe("ParseDate block", () => {
   afterEach(() => {
     unregister();
   });
-
-  test.each(cases)(
-    "getLocalIsoString() for %s",
-    (timezone: TimeZone, expected: string) => {
-      register(timezone);
-      const input = new Date(refDate);
-      const result = getLocalISOString(input);
-      expect(result).toStrictEqual(expected);
-      unregister();
-    }
-  );
 
   test("Results snapshot - EST input", async () => {
     register("US/Eastern");

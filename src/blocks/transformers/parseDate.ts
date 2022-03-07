@@ -21,25 +21,6 @@ import { propertiesToSchema } from "@/validators/generic";
 import { PropError } from "@/errors";
 import { isEmpty } from "lodash";
 
-export function getLocalISOString(date: Date): string {
-  let offsetInMinutes = date.getTimezoneOffset();
-  const offsetMillis = offsetInMinutes * 60 * 1000;
-  const shiftedDate = new Date(date.getTime() - offsetMillis);
-  const isoString = shiftedDate.toISOString();
-
-  if (offsetInMinutes === 0) {
-    return isoString;
-  }
-
-  const offsetSign = offsetInMinutes > 0 ? "-" : "+";
-  offsetInMinutes = Math.abs(offsetInMinutes);
-  const offsetHours = String(Math.trunc(offsetInMinutes / 60)).padStart(2, "0");
-  const offsetMinutes = String(offsetInMinutes % 60).padStart(2, "0");
-  // Remove the 'Z' on the end
-  const isoTrimmed = isoString.slice(0, -1);
-  return `${isoTrimmed}${offsetSign}${offsetHours}:${offsetMinutes}`;
-}
-
 export class ParseDate extends Transformer {
   override async isPure(): Promise<boolean> {
     return true;

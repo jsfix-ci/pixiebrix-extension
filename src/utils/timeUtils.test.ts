@@ -15,8 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { register, TimeZone, unregister } from "timezone-mock";
+
 /* eslint-disable quotes -- `toMatchInlineSnapshot` is incompatible */
-import { formatDate, formatDateTime, timeSince } from "./timeUtils";
+import {
+  formatDate,
+  formatDateTime,
+  getLocalISOString,
+  timeSince,
+} from "./timeUtils";
 
 test("formatDate", () => {
   // Accepts Date object
@@ -68,3 +75,25 @@ test("timeSince", () => {
   isoString.setHours(isoString.getHours() - 2);
   expect(timeSince(String(isoString))).toMatchInlineSnapshot(`"2 hours ago"`);
 });
+
+const refDate = "2021-12-07T06:17:09.258Z";
+
+const cases = [
+  ["US/Pacific", "2021-12-06T22:17:09.258-08:00"],
+  ["US/Eastern", "2021-12-07T01:17:09.258-05:00"],
+  ["Brazil/East", "2021-12-07T04:17:09.258-02:00"],
+  ["UTC", "2021-12-07T06:17:09.258Z"],
+  ["Europe/London", "2021-12-07T06:17:09.258Z"],
+  ["Australia/Adelaide", "2021-12-07T16:47:09.258+10:30"],
+];
+
+test.each(cases)(
+  "getLocalISOString() for %s",
+  (timezone: TimeZone, expected: string) => {
+    register(timezone);
+    const input = new Date(refDate);
+    const result = getLocalISOString(input);
+    expect(result).toStrictEqual(expected);
+    unregister();
+  }
+);
