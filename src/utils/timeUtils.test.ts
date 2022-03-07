@@ -16,12 +16,7 @@
  */
 
 /* eslint-disable quotes -- `toMatchInlineSnapshot` is incompatible */
-import {
-  formatDate,
-  formatDateTime,
-  getLocalISOString,
-  timeSince,
-} from "./timeUtils";
+import { formatDate, formatDateTime, timeSince } from "./timeUtils";
 
 test("formatDate", () => {
   // Accepts Date object
