@@ -57,6 +57,9 @@ function useToggleFormField(
     useFormikContext<FormState>();
   const parentValues = getIn(formState, parentFieldName) ?? formState;
 
+  console.log("hello form state:", formState);
+
+  // failing here: parentValues is undefined, because formState is undefined
   const inputMode = useMemo(
     () => inferInputMode(parentValues, fieldName, schema),
     [fieldName, parentValues, schema]

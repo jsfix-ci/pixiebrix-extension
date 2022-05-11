@@ -122,6 +122,7 @@ const BasicSchemaField: SchemaFieldComponent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setValue]);
 
+  console.log("toggle form field stuff", name, normalizedSchema);
   const { onOmitField } = useToggleFormField(name, normalizedSchema);
 
   if (isEmpty(inputModeOptions)) {

@@ -77,6 +77,8 @@ const ServiceEditorModal: React.FunctionComponent<OwnProps> = ({
       return optionsRegistry.get(service.id);
     }
 
+    console.log("service schema", service.schema);
+
     return genericOptionsFactory(service.schema);
   }, [service]);
 
