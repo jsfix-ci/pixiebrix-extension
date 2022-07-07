@@ -52,7 +52,10 @@ import { authSlice, persistAuthConfig } from "@/auth/authSlice";
 
 const REDUX_DEV_TOOLS: boolean = boolean(process.env.REDUX_DEV_TOOLS);
 
-export const hashHistory = createHashHistory({ hashType: "slash" });
+export const hashHistory = /* TODO: JSFIX could not patch the breaking change:
+Remove hashType 
+Suggested fix: The hashType property has been removed, meaning you can no longer specify the hash formating for createHashHistory. By default createHashHistory uses a leading slash in hash-based URLs. This means that history.push('/home'); would result in window.location.hash to have the value #/home */
+createHashHistory({ hashType: "slash" });
 
 export type RootState = AuthRootState &
   LogRootState &
